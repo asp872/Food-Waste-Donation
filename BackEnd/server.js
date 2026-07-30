@@ -79,6 +79,9 @@ app.put("/pickup/:id", (req, res) => {
 app.get("/history", (req, res) => {
   res.json(readData());
 });
+app.get("/", (req, res) => {
+  res.send("Food Waste Donation Backend is Running ✅");
+});
 
 app.listen(PORT, () => {
   console.log(`Server Running on http://localhost:${PORT}`);
