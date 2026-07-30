@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NGO Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>NGO Dashboard</h1>
+</header>
+
+<div id="foodList" class="container"></div>
+
+<script>
+
+async function loadFood(){
+
+const response = await fetch("http://localhost:5000/donations");
+
+const data = await response.json();
+
+let output="";
+
+data.forEach((item,index)=>{
+
+output +=`
+
+<div class="card">
+
+<h2>${item.hotel}</h2>
+
+<p><b>Food:</b> ${item.food}</p>
+
+<p><b>Quantity:</b> ${item.quantity}</p>
+
+<p><b>Location:</b> ${item.location}</p>
+
+<p><b>Status:</b> ${item.status}</p>
+
+<button onclick="acceptFood(${index})">Accept</button>
+
+<button onclick="pickupFood(${index})">Pickup</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("foodList").innerHTML=output;
+
+}
+
+async function acceptFood(id){
+
+await fetch(`http://localhost:5000/accept/${id}`,{
+method:"PUT"
+});
+
+loadFood();
+
+}
+
+async function pickupFood(id){
+
+await fetch(`http://localhost:5000/pickup/${id}`,{
+method:"PUT"
+});
+
+loadFood();
+
+}
+
+loadFood();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Donation History</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+
+<h1>Donation History</h1>
+
+</header>
+
+<div id="history" class="container"></div>
+
+<script>
+
+async function history(){
+
+const res=await fetch("http://localhost:5000/history");
+
+const data=await res.json();
+
+let output="";
+
+data.forEach(item=>{
+
+output+=`
+
+<div class="card">
+
+<h2>${item.hotel}</h2>
+
+<p>${item.food}</p>
+
+<p>${item.quantity}</p>
+
+<p>${item.location}</p>
+
+<p>${item.status}</p>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("history").innerHTML=output;
+
+}
+
+history();
+
+</script>
+
+</body>
+</html>
