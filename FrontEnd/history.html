@@ -15,43 +15,33 @@
 <div id="history" class="container"></div>
 
 <script>
+const API_URL = "https://food-waste-donation-k8p9.onrender.com";
 
-async function history(){
+async function history() {
 
-const res=await fetch("http://localhost:5000/history");
+    const res = await fetch(`${API_URL}/history`);
+    const data = await res.json();
 
-const data=await res.json();
+    let output = "";
 
-let output="";
+    data.forEach(item => {
 
-data.forEach(item=>{
+        output += `
+        <div class="card">
+            <h2>${item.hotel}</h2>
+            <p>${item.food}</p>
+            <p>${item.quantity}</p>
+            <p>${item.location}</p>
+            <p>${item.status}</p>
+        </div>
+        `;
 
-output+=`
+    });
 
-<div class="card">
-
-<h2>${item.hotel}</h2>
-
-<p>${item.food}</p>
-
-<p>${item.quantity}</p>
-
-<p>${item.location}</p>
-
-<p>${item.status}</p>
-
-</div>
-
-`;
-
-});
-
-document.getElementById("history").innerHTML=output;
-
+    document.getElementById("history").innerHTML = output;
 }
 
 history();
-
 </script>
 
 </body>

@@ -14,62 +14,57 @@
 
 <script>
 
-async function loadFood(){
+const API_URL = "https://food-waste-donation-k8p9.onrender.com";
 
-const response = await fetch("http://localhost:5000/donations");
+async function loadFood() {
 
-const data = await response.json();
+    const response = await fetch(`${API_URL}/donations`);
+    const data = await response.json();
 
-let output="";
+    let output = "";
 
-data.forEach((item,index)=>{
+    data.forEach((item) => {
 
-output +=`
+        output += `
+        <div class="card">
 
-<div class="card">
+            <h2>${item.hotel}</h2>
 
-<h2>${item.hotel}</h2>
+            <p><b>Food:</b> ${item.food}</p>
 
-<p><b>Food:</b> ${item.food}</p>
+            <p><b>Quantity:</b> ${item.quantity}</p>
 
-<p><b>Quantity:</b> ${item.quantity}</p>
+            <p><b>Location:</b> ${item.location}</p>
 
-<p><b>Location:</b> ${item.location}</p>
+            <p><b>Status:</b> ${item.status}</p>
 
-<p><b>Status:</b> ${item.status}</p>
+            <button onclick="acceptFood(${item.id})">Accept</button>
 
-<button onclick="acceptFood(${index})">Accept</button>
+            <button onclick="pickupFood(${item.id})">Pickup</button>
 
-<button onclick="pickupFood(${index})">Pickup</button>
+        </div>
+        `;
+    });
 
-</div>
-
-`;
-
-});
-
-document.getElementById("foodList").innerHTML=output;
-
+    document.getElementById("foodList").innerHTML = output;
 }
 
-async function acceptFood(id){
+async function acceptFood(id) {
 
-await fetch(`http://localhost:5000/accept/${id}`,{
-method:"PUT"
-});
+    await fetch(`${API_URL}/accept/${id}`, {
+        method: "PUT"
+    });
 
-loadFood();
-
+    loadFood();
 }
 
-async function pickupFood(id){
+async function pickupFood(id) {
 
-await fetch(`http://localhost:5000/pickup/${id}`,{
-method:"PUT"
-});
+    await fetch(`${API_URL}/pickup/${id}`, {
+        method: "PUT"
+    });
 
-loadFood();
-
+    loadFood();
 }
 
 loadFood();
